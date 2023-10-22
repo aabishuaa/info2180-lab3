@@ -23,7 +23,20 @@ document.addEventListener("DOMContentLoaded", function () {
       currentPlayer = currentPlayer === "X" ? "O" : "X";
     }
   }
-
+  //EXERCISE 3: ADD HOVER
+  function handleMouseOver() {
+      this.classList.add("hover");
+    }
+    
+    function handleMouseLeave() {
+      this.classList.remove("hover");
+    }
+    
+    squares.forEach((square) => {
+      square.addEventListener("mouseover", handleMouseOver);
+      square.addEventListener("mouseleave", handleMouseLeave);
+    });
+    
   squares.forEach((square) => {
     square.classList.add("square");
     square.addEventListener("click", handleSquareClick);
