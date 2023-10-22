@@ -5,41 +5,72 @@
 //EXERCISE 1: ADDING SQUARES
 document.addEventListener("DOMContentLoaded", function () {
   const squares = document.querySelectorAll("#board div");
+  let currentPlayer = "X";
+  let isGameOver = false; 
 
-  squares.forEach((square) => {
-    square.classList.add("square");
-  });
-});
+  const status = document.getElementById("status");
 
 //EXERCISE 2: ALTERNATING X AND O
-document.addEventListener("DOMContentLoaded", function () {
-  const squares = document.querySelectorAll("#board div");
-  let currentPlayer = "X";
-
   function handleSquareClick() {
-    if (!this.classList.contains("X") && !this.classList.contains("O")) {
+    if (!isGameOver && !this.classList.contains("X") && !this.classList.contains("O")) {
       this.classList.add(currentPlayer);
       this.textContent = currentPlayer;
       currentPlayer = currentPlayer === "X" ? "O" : "X";
+      checkWinner();
     }
   }
-  //EXERCISE 3: ADD HOVER
+//EXERCISE 4: CHECKING FOR WINNER
+  function checkWinner() {
+    const winningCombination = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    for (const combination of winningCombination) {
+      const [a, b, c] = combination;
+      if (
+        squares[a].classList.contains("X") &&
+        squares[b].classList.contains("X") &&
+        squares[c].classList.contains("X")
+      ) {
+        isGameOver = true;
+        status.classList.add("you-won");
+        status.textContent = "Congratulations! X is the Winner!";
+        return;
+      } else if (
+        squares[a].classList.contains("O") &&
+        squares[b].classList.contains("O") &&
+        squares[c].classList.contains("O")
+      ) {
+        isGameOver = true;
+        status.classList.add("you-won");
+        status.textContent = "Congratulations! O is the Winner!";
+        return;
+      }
+    }
+  }
+//EXERCISE 3: ADD HOVER
   function handleMouseOver() {
-      this.classList.add("hover");
-    }
-    
-    function handleMouseLeave() {
-      this.classList.remove("hover");
-    }
-    
-    squares.forEach((square) => {
-      square.addEventListener("mouseover", handleMouseOver);
-      square.addEventListener("mouseleave", handleMouseLeave);
-    });
-    
+    this.classList.add("hover");
+  }
+
+  function handleMouseLeave() {
+    this.classList.remove("hover");
+  }
+
+  squares.forEach((square) => {
+    square.addEventListener("mouseover", handleMouseOver);
+    square.addEventListener("mouseleave", handleMouseLeave);
+  });
+
   squares.forEach((square) => {
     square.classList.add("square");
     square.addEventListener("click", handleSquareClick);
   });
 });
-
